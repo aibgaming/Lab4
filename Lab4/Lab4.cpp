@@ -99,28 +99,47 @@ int partition (int arr[], int low, int high)
     return (i + 1);
 }
 
-void quicksort(int a[], int p, int r)    
+void quickSort(int a[], int p, int r)    
 {
     if(p < r)
     {
         int q;
         q = partition(a, p, r);
-        quicksort(a, p, q-1);
-        quicksort(a, q+1, r);
+        quickSort(a, p, q-1);
+        quickSort(a, q+1, r);
     }
 }
-
-
-int getMax(int arr[], int n)
-{
-    int mx = arr[0];
-    for (int i = 1; i < n; i++)
-        if (arr[i] > mx)
-            mx = arr[i];
-    return mx;
-}
  
-void countSort(int arr[], int n, int exp)
+ 
+int getMax(int array[], int size) {
+   int max = array[1];
+   for(int i = 2; i<=size; i++) {
+      if(array[i] > max)
+         max = array[i];
+   }
+   return max; //the max element from the array
+}
+void countSort(int *array, int size) {
+   int output[size+1];
+   int max = getMax(array, size);
+   int count[max+1];     //create count array (max+1 number of elements)
+   for(int i = 0; i<=max; i++)
+      count[i] = 0;     //initialize count array to all zero
+   for(int i = 1; i <=size; i++)
+      count[array[i]]++;     //increase number count in count array.
+   for(int i = 1; i<=max; i++)
+      count[i] += count[i-1];     //find cumulative frequency
+   for(int i = size; i>=1; i--) {
+      output[count[array[i]]] = array[i];
+      count[array[i]] -= 1; //decrease count for same numbers
+   }
+   for(int i = 1; i<=size; i++) {
+      array[i] = output[i]; //store output array to main array
+   }
+}
+
+
+void countSortRadix(int arr[], int n, int exp)
 {
     int output[n]; 
     int i, count[10] = { 0 };
@@ -145,7 +164,7 @@ void radixsort(int arr[], int n)
 {
     int m = getMax(arr, n);
     for (int exp = 1; m / exp > 0; exp *= 10)
-        countSort(arr, n, exp);
+        countSortRadix(arr, n, exp);
 }
  
 
@@ -191,13 +210,29 @@ int randomGen(int low, int high)
  #include <chrono>
 int main()
 {
+    //Generating n random numbers from 1 to n*2
     srand(time(NULL));
-    int n = 100;
+    int n = 10;
     int myarr[n];
     for (int i = 0; i < n; i++) {
         myarr[i] = randomGen(1, n*2);
     }
     
+    //Printing generated array
+    for (int i = 0; i < n; i++) {
+        cout << myarr[i] << " ";
+    }
+    cout<< endl;
+    
+    int arrlength = sizeof(myarr)/sizeof(myarr[1]);
+    //bubbleSort(myarr, arrlength);
+    //insertionSort(myarr, arrlength);
+    int (*pMyarr) = myarr;
+    //mergeSort(pMyarr, 0, n-1);
+    //quickSort(myarr, 0, n-1);
+    countSort(pMyarr, n-1);
+    
+    //Printing array after sorting
     for (int i = 0; i < n; i++) {
         cout << myarr[i] << " ";
     }
