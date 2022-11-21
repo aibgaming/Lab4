@@ -1,30 +1,27 @@
 // Lab4.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// 
+// Team Members: Autri Banerjee, Kshitij Sawant, Vishesh Srivastava
 //
+// Resources Used: https://crackfaang.medium.com/sorting-algorithms-in-c-b0a601467dbf, zybooks
+// 
 
 #include <iostream>
-
+#include <ctime>
+#include <random>
 using namespace std;
 
-void BubbleSort (vector<int> &arr, int n)
-{
-   for (int i = 0; i < n - 1; ++i)
-   { 
-      bool swapped = false;
-      for (int j = 0; j < n - i - 1; ++j)
-      {
-         if (arr[j] > arr[j+1]) //check if adjacent element is
-                      //not in order
-         {
-            swap(arr[j], arr[j + 1]);
-            swapped = true;
-         }
-      }
-      // Value at n-i-1 will be maximum of all the values below this index.
-      if(!swapped)
-         break;
-   } 
-} 
 
+void bubbleSort(int array[], int length)
+ {
+     for(int i = 0; i < length-1; i++){
+         for(int j=0;j<length-i-1;j++)
+            if(array[j]>array[j+1]){
+                array[j]+=array[j+1];
+                array[j+1]=array[j]-array[j+1];
+                array[j]-=array[j+1];
+            }
+     }
+ }
 
 void insertionSort(int arr[], int length) 
 {
@@ -42,17 +39,11 @@ void insertionSort(int arr[], int length)
         arr[j +1] = key;
         
     }
-    cout << "Sorted Array: ";
-    // print the sorted array
-    printArray(arr, length);
 }
 
 void merge(int *Arr, int start, int mid, int end) {
-	// create a temp array
 	int temp[end - start + 1];
-	// crawlers for both intervals and for temp
 	int i = start, j = mid+1, k = 0;
-	// traverse both arrays and in each iteration add smaller of both elements in temp 
 	while(i <= mid && j <= end) {
 		if(Arr[i] <= Arr[j]) {
 			temp[k] = Arr[i];
@@ -63,23 +54,18 @@ void merge(int *Arr, int start, int mid, int end) {
 			k += 1; j += 1;
 		}
 	}
-	// add elements left in the first interval 
 	while(i <= mid) {
 		temp[k] = Arr[i];
 		k += 1; i += 1;
 	}
-	// add elements left in the second interval 
 	while(j <= end) {
 		temp[k] = Arr[j];
 		k += 1; j += 1;
 	}
-	// copy temp to original interval
 	for(i = start; i <= end; i += 1) {
-		Arr[i] = temp[i - start]
+        Arr[i] = temp[i - start];
 	}
 }
-// Arr is an array of integer type
-// start and end are the starting and ending index of current interval of Arr
 void mergeSort(int *Arr, int start, int end) {
 	if(start < end) {
 		int mid = (start + end) / 2;
@@ -98,25 +84,21 @@ void swap(int* a, int* b)
 }
 int partition (int arr[], int low, int high)
 {
-    int pivot = arr[high];  // selecting last element as pivot
-    int i = (low - 1);  // index of smaller element
+    int pivot = arr[high];  
+    int i = (low - 1);  
  
     for (int j = low; j <= high- 1; j++)
     {
-        // If the current element is smaller than or equal to pivot
         if (arr[j] <= pivot)
         {
-            i++;    // increment index of smaller element
+            i++;   
             swap(&arr[i], &arr[j]);
         }
     }
     swap(&arr[i + 1], &arr[high]);
     return (i + 1);
 }
-/*  
-    a[] is the array, p is starting index, that is 0, 
-    and r is the last index of array.  
-*/
+
 void quicksort(int a[], int p, int r)    
 {
     if(p < r)
@@ -127,16 +109,7 @@ void quicksort(int a[], int p, int r)
         quicksort(a, q+1, r);
     }
 }
-// function to print the array
-void printArray(int a[], int size)
-{
-    int i;
-    for (i=0; i < size; i++)
-    {
-        printf("%d ", a[i]);
-    }
-    printf("\n");
-}
+
 
 int getMax(int arr[], int n)
 {
@@ -147,108 +120,80 @@ int getMax(int arr[], int n)
     return mx;
 }
  
-// A function to do counting sort of arr[] according to
-// the digit represented by exp.
 void countSort(int arr[], int n, int exp)
 {
-    int output[n]; // output array
+    int output[n]; 
     int i, count[10] = { 0 };
  
-    // Store count of occurrences in count[]
     for (i = 0; i < n; i++)
         count[(arr[i] / exp) % 10]++;
- 
-    // Change count[i] so that count[i] now contains actual
-    //  position of this digit in output[]
+
     for (i = 1; i < 10; i++)
         count[i] += count[i - 1];
- 
-    // Build the output array
+    
     for (i = n - 1; i >= 0; i--) {
         output[count[(arr[i] / exp) % 10] - 1] = arr[i];
         count[(arr[i] / exp) % 10]--;
     }
- 
-    // Copy the output array to arr[], so that arr[] now
-    // contains sorted numbers according to current digit
+
     for (i = 0; i < n; i++)
         arr[i] = output[i];
 }
  
-// The main function to that sorts arr[] of size n using
-// Radix Sort
+
 void radixsort(int arr[], int n)
 {
-    // Find the maximum number to know number of digits
     int m = getMax(arr, n);
- 
-    // Do counting sort for every digit. Note that instead
-    // of passing digit number, exp is passed. exp is 10^i
-    // where i is current digit number
     for (int exp = 1; m / exp > 0; exp *= 10)
         countSort(arr, n, exp);
 }
  
-// A utility function to print an array
-void print(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-        cout << arr[i] << " ";
-}
+
 
 void heapify(int arr[], int n, int i)
 {
-    int largest = i; // Initialize largest as root
-    int l = 2 * i + 1; // left = 2*i + 1
-    int r = 2 * i + 2; // right = 2*i + 2
+    int largest = i; 
+    int l = 2 * i + 1; 
+    int r = 2 * i + 2; 
  
-    // If left child is larger than root
     if (l < n && arr[l] > arr[largest]){}
         largest = l;
  
-    // If right child is larger than largest so far
     if (r < n && arr[r] > arr[largest])
         largest = r;
  
-    // If largest is not root
     if (largest != i) {
         swap(arr[i], arr[largest]);
  
-        // Recursively heapify the affected sub-tree
         heapify(arr, n, largest);
     }
 }
  
-// main function to do heap sort
 void heapSort(int arr[], int n)
 {
-    // Build heap (rearrange array)
     for (int i = n / 2 - 1; i >= 0; i--)
         heapify(arr, n, i);
  
-    // One by one extract an element from heap
     for (int i = n - 1; i >= 0; i--) {
-        // Move current root to end
         swap(arr[0], arr[i]);
- 
-        // call max heapify on the reduced heap
         heapify(arr, i, 0);
     }
 }
 
 
-int main()
+int randomGen(int low, int high)
 {
-    std::cout << "Hello World! Lab 4 is here!\n";
+    return low + rand() % (high - low + 1);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+int main()
+{
+    srand(time(NULL));
+    int n = 10;
+    for (int i = 0; i < n; i++) {
+        cout << randomGen(1, n*2) << std::endl;
+    }
+ 
+    cout << "Hello World! Lab 4 is here!\n";
+    return 0;
+}
