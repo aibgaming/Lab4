@@ -259,17 +259,18 @@ private: // Declaration of private members of student class
     string LastName;
     int MNumber;
 public:
-    //This accepts parameters for FirstName, LastName, MNumber and Birthday. It has an optional parameter for GPA which if missing is set to 0.0.
-    student(string newFirstName, string newLastName, int newMNumber, int newBirthday, float newgpa = 0.0)
+    student(string newFirstName, string newLastName, int newMNumber)
     {
         FirstName = newFirstName;
         LastName = newLastName;
         MNumber = newMNumber;
     }
 
-    //this returns a string containing both FirstName concatenated with LastName
-    string GetName() {
-        return (FirstName + " " + LastName);
+    string GetFirstName() {
+        return FirstName;
+    }
+	string GetLastName() {
+        return LastName;
     }
     int GetMNumber() {
         return MNumber;
@@ -286,9 +287,10 @@ public:
     }
 };
 
+
 class LinkedList {
 private:
-    Node<T>* head;
+    Node<student>* head;
     int size_;
 };
 
