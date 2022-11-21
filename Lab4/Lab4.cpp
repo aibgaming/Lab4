@@ -360,6 +360,7 @@ int main()
 		string lastName = generateString(10);
 		int MNumber = randomGen(10000000,99999999);  //MNumbers are 8 digit numbers
 		cout << firstName << " " << lastName << " " << MNumber << endl;
+		student s(firstName,lastName,MNumber);
 	}
 	
     cout << "Hello World! Lab 4 is here!\n";
