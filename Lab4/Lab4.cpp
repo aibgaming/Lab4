@@ -8,6 +8,7 @@
 #include <iostream>
 #include <ctime>
 #include <random>
+#include <string>
 using namespace std;
 
 
@@ -122,7 +123,7 @@ int getMax(int array[], int n)
 
 
 void countSort(int array[], int size) {
-    const int MAX = 10000;                  // Change this to 2*n [20,200,1000,10000,50000]
+    const int MAX = 20;                 
     int output[MAX];
     int count[MAX];
     int max = array[0];
@@ -245,10 +246,62 @@ void heapSort(int arr[], int n)
     }
 }
 
-
 int randomGen(int low, int high)
 {
     return low + rand() % (high - low + 1);
+}
+
+
+class student
+{
+private: // Declaration of private members of student class
+    string FirstName;
+    string LastName;
+    int MNumber;
+public:
+    //This accepts parameters for FirstName, LastName, MNumber and Birthday. It has an optional parameter for GPA which if missing is set to 0.0.
+    student(string newFirstName, string newLastName, int newMNumber, int newBirthday, float newgpa = 0.0)
+    {
+        FirstName = newFirstName;
+        LastName = newLastName;
+        MNumber = newMNumber;
+    }
+
+    //this returns a string containing both FirstName concatenated with LastName
+    string GetName() {
+        return (FirstName + " " + LastName);
+    }
+    int GetMNumber() {
+        return MNumber;
+    }
+};
+
+class Node {
+public:
+    student* data;
+    Node<student>* next;
+    Node() {
+        data = NULL;
+        next = NULL;
+    }
+};
+
+class LinkedList {
+private:
+    Node<T>* head;
+    int size_;
+};
+
+string printstring(int n)
+{
+	char letters[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+	'r','s','t','u','v','w','x',
+	'y','z'};
+	string ran = "";
+	for (int i=0;i<n;i++) {
+		ran=ran + letters[rand() % 26];
+	}
+	return ran;
 }
 
  #include <chrono>
@@ -256,7 +309,7 @@ int main()
 {
     //Generating n random numbers from 1 to n*2
     srand(time(NULL));
-    int n = 5000;
+    int n = 10;
     int myarr[n];
     for (int i = 0; i < n; i++) {
         myarr[i] = randomGen(1, n*2);
