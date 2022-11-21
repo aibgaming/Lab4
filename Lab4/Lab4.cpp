@@ -280,7 +280,7 @@ public:
 class Node {
 public:
     student* data;
-    Node<student>* next;
+    Node* next;
     Node() {
         data = NULL;
         next = NULL;
@@ -290,15 +290,13 @@ public:
 
 class LinkedList {
 private:
-    Node<student>* head;
+    Node* head;
     int size_;
 };
 
-string printstring(int n)
+string generateString(int n)
 {
-	char letters[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
-	'r','s','t','u','v','w','x',
-	'y','z'};
+	char letters[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	string ran = "";
 	for (int i=0;i<n;i++) {
 		ran=ran + letters[rand() % 26];
@@ -334,7 +332,7 @@ int main()
     //insertionSort(myarr, arrlength);
     //mergeSort(pMyarr, 0, n-1);
     //quickSort(myarr, 0, n-1);
-    countSort(myarr, n);
+    //countSort(myarr, n);
     //radixSort(myarr, n);
     //heapSort(myarr,n);
     
@@ -345,12 +343,25 @@ int main()
     auto t2 = Clock::now();
     cout << "Delta t2-t1: "  <<chrono::duration_cast<chrono::nanoseconds>(t2 - t1).count() << " nanoseconds" << std::endl;
     
+	
     for (int i = 0; i < n; i++) {
         cout << myarr[i] << " ";
     }
     cout<< endl;
 
-
+	
+	
+	//Program for creating student linked list class and sorting
+	cout << "---------------------------------------------------------";
+	cout << endl << "Student class: " << endl;
+	const int NUM_STUDENTS =50;
+	for(int i =0; i< NUM_STUDENTS; i++){
+		string firstName = generateString(10);
+		string lastName = generateString(10);
+		int MNumber = randomGen(10000000,99999999);  //MNumbers are 8 digit numbers
+		cout << firstName << " " << lastName << " " << MNumber << endl;
+	}
+	
     cout << "Hello World! Lab 4 is here!\n";
     return 0;
 }
