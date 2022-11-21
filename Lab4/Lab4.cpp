@@ -120,8 +120,50 @@ int getMax(int array[], int n)
   return max;
 }
 
+
+void countSort(int array[], int size) {
+    const int MAX = 10000;                  // Change this to 2*n [20,200,1000,10000,50000]
+    int output[MAX];
+    int count[MAX];
+    int max = array[0];
+
+    // Here we find the largest item in the array
+    for (int i = 1; i < size; i++) { if (array[i] > max)
+            max = array[i];
+    }
+
+    // Initialize the count for each element in array to 0
+    for (int i = 0; i <= max; ++i) {
+        count[i] = 0;
+    }
+
+    // For each element we store the count
+    for (int i = 0; i < size; i++) {
+        count[array[i]]++;
+    }
+
+    // Store the cummulative count of each array
+    for (int i = 1; i <= max; i++)
+	{
+		count[i] += count[i - 1];
+	}
+	
+	// Search the index of each element of the actual array in count array, and
+	// place the elements in output array
+	for (int i = size - 1; i >= 0; i--) 
+    {
+        output[count[array[i]] - 1] = array[i];
+        count[array[i]]--;
+    }
+
+    // Transfer the sorted items into actual array
+    for (int i = 0; i < size; i++) {
+        array[i] = output[i];
+    }
+}
+
 //Using counting sort to sort the elements in the basis of significant places
-void countSort(int array[], int size, int place) 
+void countSortPlace(int array[], int size, int place) 
 {
   const int max = 10;
   int output[size];
@@ -157,7 +199,7 @@ void radixSort(int array[], int size)
 
   //Applying counting sort to sort elements based on place value.
   for (int place = 1; max / place > 0; place *= 10)
-    countSort(array, size, place);
+    countSortPlace(array, size, place);
 }
  
 
@@ -214,7 +256,7 @@ int main()
 {
     //Generating n random numbers from 1 to n*2
     srand(time(NULL));
-    int n = 10;
+    int n = 5000;
     int myarr[n];
     for (int i = 0; i < n; i++) {
         myarr[i] = randomGen(1, n*2);
@@ -237,8 +279,8 @@ int main()
     //insertionSort(myarr, arrlength);
     //mergeSort(pMyarr, 0, n-1);
     //quickSort(myarr, 0, n-1);
-    //countSort(pMyarr, n-1);
-    radixSort(myarr, n);
+    countSort(myarr, n);
+    //radixSort(myarr, n);
     //heapSort(myarr,n);
     
     //Printing array after sorting
