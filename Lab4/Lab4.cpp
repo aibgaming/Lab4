@@ -160,7 +160,7 @@ void countSortRadix(int arr[], int n, int exp)
 }
  
 
-void radixsort(int arr[], int n)
+void radixSort(int arr[], int n)
 {
     int m = getMax(arr, n);
     for (int exp = 1; m / exp > 0; exp *= 10)
@@ -231,6 +231,7 @@ int main()
     //mergeSort(pMyarr, 0, n-1);
     //quickSort(myarr, 0, n-1);
     countSort(pMyarr, n-1);
+    //radixSort(myarr, n-1);
     
     //Printing array after sorting
     for (int i = 0; i < n; i++) {
