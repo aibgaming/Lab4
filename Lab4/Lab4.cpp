@@ -186,14 +186,29 @@ int randomGen(int low, int high)
     return low + rand() % (high - low + 1);
 }
 
+
+
+ #include <chrono>
 int main()
 {
     srand(time(NULL));
-    int n = 10;
+    int n = 100;
+    int myarr[n];
     for (int i = 0; i < n; i++) {
-        cout << randomGen(1, n*2) << std::endl;
+        myarr[i] = randomGen(1, n*2);
     }
- 
+    
+    for (int i = 0; i < n; i++) {
+        cout << myarr[i] << " ";
+    }
+    cout<< endl;
+
+    typedef std::chrono::high_resolution_clock Clock;
+    auto t1 = Clock::now();
+    auto t2 = Clock::now();
+    cout << "Delta t2-t1: "  <<chrono::duration_cast<chrono::nanoseconds>(t2 - t1).count() << " nanoseconds" << std::endl;
+
+
     cout << "Hello World! Lab 4 is here!\n";
     return 0;
 }
